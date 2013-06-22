@@ -2,7 +2,8 @@
 # input will come from buttons and an input field
 # all output for the game will be printed in the console
 
-import simplegui
+import simpleguitk as simplegui
+import simpleplot
 import random
 
 # initialize global variables used in your code
@@ -21,7 +22,7 @@ def range100():
     tries = 0
     range = 100
 #   print secretnr
-    print "New game! Range is from 0 to 100.\nNumber of remaining guesses is " + str(limit) + ".\n" 
+    print("New game! Range is from 0 to 100.\nNumber of remaining guesses is " + str(limit) + ".\n") 
     
 def range1000():
     # button that changes range to range [0,1000) and restarts
@@ -31,27 +32,27 @@ def range1000():
     tries = 0
     range = 1000
 #   print secretnr
-    print "New game! Range is from 0 to 1000.\nNumber of remaining guesses is " + str(limit) + ".\n"
+    print("New game! Range is from 0 to 1000.\nNumber of remaining guesses is " + str(limit) + ".\n")
     
 def get_input(guess):
     # main game logic goes here	
     global secretnr, limit, tries
     tries += 1
     limit -= 1
-    print "Your guess is " + str(guess) + "."
+    print("Your guess is " + str(guess) + ".")
     if int(guess) == secretnr or limit != 0:
         if int(guess) == secretnr:
-            print "Congrats! You guessed the number "+ str(secretnr) + " in " + str(tries) + " tries.\n"
+            print("Congrats! You guessed the number "+ str(secretnr) + " in " + str(tries) + " tries.\n")
             if range == 100:
                 range100()
             elif range == 1000:
                 range1000()
         elif int(guess) < secretnr:
-            print "Higher!\nRemaining guesses are " + str(limit) + ".\n"
+            print("Higher!\nRemaining guesses are " + str(limit) + ".\n")
         elif int(guess) > secretnr:
-            print "Lower!\nRemaining guesses are " + str(limit) + ".\n"
+            print("Lower!\nRemaining guesses are " + str(limit) + ".\n")
     else:
-        print "You ran out of tries! The number was " + str(secretnr) + ".\n"
+        print("You ran out of tries! The number was " + str(secretnr) + ".\n")
         if range == 100:
             range100()
         elif range == 1000:

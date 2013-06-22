@@ -6,7 +6,8 @@
 # this game. I used midpoints to control the paddles, hope 
 # you'll find it interesting. Have fun ! 
 
-import simplegui
+import simpleguitk as simplegui
+import simpleplot
 import random
 
 # initialize globals - pos and vel encode vertical info for paddles
