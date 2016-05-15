@@ -1,4 +1,7 @@
-# Rock-paper-scissors-lizard-Spock template
+# needed for checking python version
+from sys import version_info
+
+# needed for the game mechanics
 import random
 
 # The key idea of this program is to equate the strings
@@ -29,7 +32,7 @@ def number_to_name(num):
     elif num == 4:
         name = "scissors"
         return name
-    
+
 def name_to_number(name):
     if name == "rock":
         num = 0
@@ -49,7 +52,7 @@ def name_to_number(name):
 
 # main function
 
-def rpsls(name):     
+def rpsls(name):
     player_number = name_to_number(name)
     print("Player chooses "+number_to_name(player_number))
     comp_number = random.randrange(5)
@@ -61,12 +64,18 @@ def rpsls(name):
         print("Computer wins!\n")
     else:
         print("Player and computer tie!\n")
-      
-# test your code
-rpsls("rock")
-rpsls("Spock")
-rpsls("paper")
-rpsls("lizard")
-rpsls("scissors")
 
-# always remember to check your completed program against the grading rubric
+if __name__ == '__main__':
+    running = True
+    while running:
+        py3 = version_info[0] > 2 #creates boolean value for test that Python major version > 2
+        if py3:
+          response = input("Rock, paper, scrissors, Lizard, Spock: ")
+        else:
+          response = raw_input("Rock, paper, scrissors, Lizard, Spock: ")
+
+        if response == "exit":
+            running = False
+            break
+        else:
+            rpsls(response)
