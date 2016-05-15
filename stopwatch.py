@@ -1,12 +1,37 @@
-# template for "Stopwatch: The Game"
-import simpleguitk as simplegui
+'''
+The MIT License (MIT)
+Copyright (c) 2016 Antal Janos Monori.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+'''
+
+###########
+# Imports #
+###########
+
+try:
+    import simplegui
+except ImportError:
+    import SimpleGUICS2Pygame.simpleguics2pygame as simplegui
 import simpleplot
+
+#############
+# Variables #
+#############
 
 # define global variables
 tick = 0
 tries = 0
 win = 0
 stopped = True
+
+####################
+# Helper functions #
+####################
 
 # define helper function format that converts integer
 # counting tenths of seconds into formatted string A:BC.D
@@ -23,23 +48,27 @@ def format(t):
 # the game part of the project
 def reflex():
     global tries, win
-    if (format(tick)[5:] == "0"): 
+    if (format(tick)[5:] == "0"):
         win += 1
         tries += 1
     else: tries += 1
+
+############
+# Handlers #
+############
 
 # define event handlers for buttons; "Start", "Stop", "Reset"
 def start():
     global stopped
     timer.start()
     stopped = False
-    
+
 def stop():
     global stopped
     timer.stop()
     if (stopped == False): reflex()
     stopped = True
-    
+
 def reset():
     global tick, tries, win, stopped
     timer.stop()
@@ -62,6 +91,10 @@ def draw(canvas):
     canvas.draw_text(timer,[70, 70], 18, "White")
     canvas.draw_text(score, [145, 15], 14, "Green")
 
+######
+# UI #
+######
+
 # create frame
 frame = simplegui.create_frame("Stopwatch: The Game", 200, 120)
 
@@ -72,10 +105,17 @@ stop = frame.add_button("Stop", stop, 50)
 reset = frame.add_button("Reset", reset, 50)
 frame.set_draw_handler(draw)
 
+########
+# Main #
+########
+
 # start timer and frame
 frame.start()
 
-# remember to review the grading rubric
+#########
+# Tests #
+#########
+
 #print "Some tests:"
 #print "Outcome  |  Expected"
 #print "  "+format(0)+" = 0:00.0"

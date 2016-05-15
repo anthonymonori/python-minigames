@@ -1,10 +1,30 @@
-# implementation of card game - Memory
+'''
+The MIT License (MIT)
+Copyright (c) 2016 Antal Janos Monori.
 
-import simpleguitk as simplegui
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+'''
+
+###########
+# Imports #
+###########
+
+try:
+    import simplegui
+except ImportError:
+    import SimpleGUICS2Pygame.simpleguics2pygame as simplegui
 import simpleplot
 import random
 
-HEIGHT = 100 
+#############
+# Variables #
+#############
+
+HEIGHT = 100
 WIDTH = 800
 CARD_HEIGHT = 100
 CARD_WIDTH = 50
@@ -18,6 +38,10 @@ TEXT_SIZE = 28 #px
 CARD_LINE_COLOR = "#FF0000"
 INIT_STATE = "unflipped"
 moves = 0
+
+####################
+# Helper functions #
+####################
 
 # helper function to initialize globals
 def init():
@@ -35,9 +59,25 @@ def init():
         card = [([i*CARD_WIDTH, 0], [(i+1)*CARD_WIDTH, 0], [(i+1)*CARD_WIDTH, CARD_HEIGHT], [i*CARD_WIDTH, CARD_HEIGHT]), 1, CARD_LINE_COLOR, card_color, number_list[i], text_position, text_color, INIT_STATE]
         deck.append(card)
         i += 1
-        
-        #------------------------------------------------------#
-        
+
+def checkcard():
+    global deck, cool
+    for card in deck:
+        for c in cool:
+            if c == card[4] and card[7] == "flipped":
+                card[7] = "exposed"
+
+def clean():
+    global moves
+    for card in deck:
+        if card[7] == "flipped":
+            card[7] = "unflipped"
+    moves += 1
+
+############
+# Handlers #
+############
+
 # define event handlers
 def mouseclick(pos):
     global exposed, cool
@@ -48,34 +88,16 @@ def mouseclick(pos):
             card[7] = "flipped"
             exposed.append(card[4])
             break
-            
+
         if len(exposed) >= 2:
            exposed = []
            clean()
            break
-       
-        #-----------------------------------------------------#    
-    
-def checkcard():
-    global deck, cool
-    for card in deck:
-        for c in cool:
-            if c == card[4] and card[7] == "flipped":
-                card[7] = "exposed"
-    
-def clean():
-    global moves
-    for card in deck:
-        if card[7] == "flipped":
-            card[7] = "unflipped"
-    moves += 1 
-            
-        #-----------------------------------------------------#
-        
-# cards are logically 50x100 pixels in size    
+
+# cards are logically 50x100 pixels in size
 def draw(canvas):
     global deck, exposed, cool, moves
-    i = 0    
+    i = 0
     for card in deck:
         canvas.draw_polygon(deck[i][0], deck[i][1], deck[i][2], deck[i][3])
         if len(exposed) == 0:
@@ -86,21 +108,29 @@ def draw(canvas):
             card[6] = "#FFFFFF"
         canvas.draw_text(str(card[4]), card[5], TEXT_SIZE, card[6])
         i += 1
-           
-    if len(exposed) == 2 and exposed[0] == exposed[1]: 
-            cool.append(exposed[0]) 
+
+    if len(exposed) == 2 and exposed[0] == exposed[1]:
+            cool.append(exposed[0])
             cool.append(exposed[1])
             exposed.pop()
             exposed.pop()
             moves += 1
-            
+
     checkcard()
     l.set_text("Moves = " + str(moves))
-            
+
+######
+# UI #
+######
+
 # create frame and add a button and labels
 frame = simplegui.create_frame("Memory", WIDTH, HEIGHT)
 frame.add_button("Restart", init)
 l=frame.add_label("Moves = 0")
+
+########
+# Main #
+########
 
 # initialize global variables
 init()
@@ -111,6 +141,3 @@ frame.set_draw_handler(draw)
 
 # get things rolling
 frame.start()
-
-
-# Always remember to review the grading rubric

@@ -1,10 +1,28 @@
-# template for "Guess the number" mini-project
-# input will come from buttons and an input field
-# all output for the game will be printed in the console
+'''
+The MIT License (MIT)
+Copyright (c) 2016 Antal Janos Monori.
 
-import simpleguitk as simplegui
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+'''
+
+###########
+# Imports #
+###########
+
+try:
+    import simplegui
+except ImportError:
+    import SimpleGUICS2Pygame.simpleguics2pygame as simplegui
 import simpleplot
 import random
+
+#############
+# Variables #
+#############
 
 # initialize global variables used in your code
 secretnr = 0
@@ -12,30 +30,34 @@ limit = 0
 tries = 0
 range = 100
 
+############
+# Handlers #
+############
+
 # define event handlers for control panel
-    
+
 def range100():
     # button that changes range to range [0,100) and restarts
-    global secretnr, limit, tries, range	
+    global secretnr, limit, tries, range
     secretnr = random.randrange(0, 100)
     limit = 7
     tries = 0
     range = 100
 #   print secretnr
-    print("New game! Range is from 0 to 100.\nNumber of remaining guesses is " + str(limit) + ".\n") 
-    
+    print("New game! Range is from 0 to 100.\nNumber of remaining guesses is " + str(limit) + ".\n")
+
 def range1000():
     # button that changes range to range [0,1000) and restarts
-    global secretnr, limit, tries, range	
+    global secretnr, limit, tries, range
     secretnr = random.randrange(0, 1000)
     limit = 10
     tries = 0
     range = 1000
 #   print secretnr
     print("New game! Range is from 0 to 1000.\nNumber of remaining guesses is " + str(limit) + ".\n")
-    
+
 def get_input(guess):
-    # main game logic goes here	
+    # main game logic goes here
     global secretnr, limit, tries
     tries += 1
     limit -= 1
@@ -57,7 +79,11 @@ def get_input(guess):
             range100()
         elif range == 1000:
             range1000()
-        
+
+######
+# UI #
+######
+
 # create frame
 frame = simplegui.create_frame("Guess the number", 100, 150, 100)
 
@@ -66,8 +92,10 @@ frame.add_button("Range: 0-100", range100, 100)
 frame.add_button("Range: 0-1000", range1000, 100)
 frame.add_input("Enter guess:", get_input, 95)
 
+########
+# Main #
+########
+
 # start frame
 frame.start
 range100()
-
-# always remember to check your completed program against the grading rubric
